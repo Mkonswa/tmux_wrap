@@ -10,6 +10,7 @@ A portable tmux setup with a modern workflow out of the box.
 - Clean keybindings for rename, navigation, and layout actions
 - Shell helpers for daily use
 - Editor terminal environment passthrough for older tmux panes
+- Save Terminals through tmux when running VS Code / Cursor with SSH extension
 
 ## Requirements
 
