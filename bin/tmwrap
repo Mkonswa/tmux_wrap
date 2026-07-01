@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CONFIG_HOME="${TMUX_WRAPPER_HOME:-${XDG_CONFIG_HOME:-$HOME/.config}/tmux-wrapper}"
+SCRIPTS_DIR="$CONFIG_HOME/scripts"
+
+usage() {
+  cat <<'EOF'
+Usage: tmwrap <command> [args]
+
+Commands:
+  attach [name]     Attach or create tmux session
+  switch            Switch tmux session (inside tmux)
+  dashboard         Open tmux dashboard
+  help              Show keybindings help
+  reload            Reload tmux config
+  doctor            Validate install and dependencies
+EOF
+}
+
+doctor() {
+  local ok=1
+  command -v tmux >/dev/null 2>&1 || { echo "[x] tmux not found"; ok=0; }
+  [[ -f "$CONFIG_HOME/tmux.conf" ]] || { echo "[x] Missing $CONFIG_HOME/tmux.conf"; ok=0; }
+  [[ -x "$SCRIPTS_DIR/session-picker.sh" ]] || { echo "[x] Missing executable session-picker.sh"; ok=0; }
+  [[ -x "$SCRIPTS_DIR/dashboard.sh" ]] || { echo "[x] Missing executable dashboard.sh"; ok=0; }
+  if command -v fzf >/dev/null 2>&1 || [[ -x "$HOME/.fzf/bin/fzf" ]]; then
+    echo "[ok] fzf found"
+  else
+    echo "[!] fzf not found (optional but recommended)"
+  fi
+
+  if grep -q 'tmux-wrapper/tmux.conf' "$HOME/.tmux.conf" 2>/dev/null; then
+    echo "[ok] ~/.tmux.conf includes tmux-wrapper"
+  else
+    echo "[!] ~/.tmux.conf does not source tmux-wrapper yet"
+  fi
+
+  if [[ $ok -eq 1 ]]; then
+    echo "tmux-wrapper looks good"
+  else
+    exit 1
+  fi
+}
+
+cmd="${1:-help}"
+shift || true
+
+case "$cmd" in
+  attach)
+    exec "$SCRIPTS_DIR/session-picker.sh" "$@"
+    ;;
+  switch)
+    exec "$SCRIPTS_DIR/session-switcher.sh" "$@"
+    ;;
+  dashboard)
+    exec "$SCRIPTS_DIR/dashboard.sh" "$@"
+    ;;
+  help)
+    exec "$SCRIPTS_DIR/help-popup.sh"
+    ;;
+  reload)
+    tmux source-file "$HOME/.tmux.conf"
+    ;;
+  doctor)
+    doctor
+    ;;
+  *)
+    usage
+    exit 1
+    ;;
+esac
