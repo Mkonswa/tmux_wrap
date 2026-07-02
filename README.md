@@ -304,13 +304,9 @@ Contributions welcome! Please:
 4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📝 License
-
-MIT License - see LICENSE file for details
 
 ## 🙏 Acknowledgments
 
-- Built on [tmux](https://github.com/tmux/tmux)
 - UI powered by [fzf](https://github.com/junegunn/fzf)
 - Styled with [Catppuccin](https://catppuccin.com) theme
 - Inspired by modern terminal workflows
