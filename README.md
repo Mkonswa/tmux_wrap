@@ -1,4 +1,4 @@
-<img width="1199" height="428" alt="image" src="https://github.com/user-attachments/assets/95253ace-d0a2-4f6c-a797-a8b699d77a2b" /># 🎯 tmux-wrapper
+## 🎯 tmux-wrapper
 
 > **A modern, battery-included tmux setup for power users.** Drop-in configuration with intuitive keybindings, interactive dashboards, and shell helpers that make terminal multiplexing enjoyable.
 
@@ -52,7 +52,7 @@ Automatically preserves editor environment variables in tmux panes for seamless 
 ## 📸 Screenshots
 
 ### Dashboard View
-<img width="1199" height="428" alt="image" src="https://github.com/user-attachments/assets/e2a548eb-078c-424b-855b-c354ae65a7d2" />
+<img width="1199" height="428" alt="image" src="https://github.com/user-attachments/assets/95253ace-d0a2-4f6c-a797-a8b699d77a2b" />
 *The interactive dashboard lets you manage sessions, windows, and panes. Press `r` to rename, `R` for window, `x` to kill, or `Enter` to jump.*
 
 **What to capture:**
@@ -64,19 +64,20 @@ Automatically preserves editor environment variables in tmux panes for seamless 
 ---
 
 ### Status Bar & Window Tabs
-
+<img width="509" height="26" alt="image" src="https://github.com/user-attachments/assets/7bcf65c0-e5d3-4e21-b61a-2b65ce73e5e6" />
 *Clean, modern status bar with session name, window tabs, hostname, date, and time. click on any tab to switch and Right-click any tab for context menu.*
 
 **What to capture:**
 - Full tmux window showing the top status bar
 - Multiple window tabs with different names
+- Click with your mouth to switch the tab
 - Show the right-click context menu (right-click on a tab)
+- Rename , new and kill in context window
 - The time/date display on the right side
 
 ---
 
 ### Pane Navigation
-![Pane Navigation Screenshot](./screenshots/pane-navigation.png)
 *Multiple panes with clear borders and active indicator. Use `Alt + Arrow` keys to navigate smoothly.*
 
 **What to capture:**
@@ -88,7 +89,7 @@ Automatically preserves editor environment variables in tmux panes for seamless 
 ---
 
 ### Session Picker
-![Session Picker Screenshot](./screenshots/session-picker.png)
+<img width="852" height="222" alt="image" src="https://github.com/user-attachments/assets/9e774a5a-b848-4176-8657-869ff9fa98cb" />
 *Quick session switching with `tm` command or `Prefix + Ctrl+F`.*
 
 **What to capture:**
