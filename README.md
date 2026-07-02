@@ -1,4 +1,4 @@
-# 🎯 tmux-wrapper
+<img width="1199" height="428" alt="image" src="https://github.com/user-attachments/assets/95253ace-d0a2-4f6c-a797-a8b699d77a2b" /># 🎯 tmux-wrapper
 
 > **A modern, battery-included tmux setup for power users.** Drop-in configuration with intuitive keybindings, interactive dashboards, and shell helpers that make terminal multiplexing enjoyable.
 
@@ -52,7 +52,7 @@ Automatically preserves editor environment variables in tmux panes for seamless 
 ## 📸 Screenshots
 
 ### Dashboard View
-![Dashboard Screenshot](./screenshots/dashboard.png)
+<img width="1199" height="428" alt="image" src="https://github.com/user-attachments/assets/e2a548eb-078c-424b-855b-c354ae65a7d2" />
 *The interactive dashboard lets you manage sessions, windows, and panes. Press `r` to rename, `R` for window, `x` to kill, or `Enter` to jump.*
 
 **What to capture:**
@@ -64,8 +64,8 @@ Automatically preserves editor environment variables in tmux panes for seamless 
 ---
 
 ### Status Bar & Window Tabs
-![Status Bar Screenshot](./screenshots/status-bar.png)
-*Clean, modern status bar with session name, window tabs, hostname, date, and time. Right-click any tab for context menu.*
+
+*Clean, modern status bar with session name, window tabs, hostname, date, and time. click on any tab to switch and Right-click any tab for context menu.*
 
 **What to capture:**
 - Full tmux window showing the top status bar
