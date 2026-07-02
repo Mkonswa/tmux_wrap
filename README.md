@@ -65,6 +65,7 @@ Automatically preserves editor environment variables in tmux panes for seamless 
 
 ### Status Bar & Window Tabs
 <img width="509" height="26" alt="image" src="https://github.com/user-attachments/assets/7bcf65c0-e5d3-4e21-b61a-2b65ce73e5e6" />
+
 *Clean, modern status bar with session name, window tabs, hostname, date, and time. click on any tab to switch and Right-click any tab for context menu.*
 
 **What to capture:**
