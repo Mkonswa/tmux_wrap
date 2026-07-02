@@ -75,15 +75,18 @@ case "$key" in
     jump
     ;;
   r)
-    "$TMUX_BIN" command-prompt -I "$session" -p "Rename session:" "rename-session -t '$session' '%%'"
+    read -p "Rename session '$session' to: " new_name
+    [[ -n "$new_name" ]] && "$TMUX_BIN" rename-session -t "$session" "$new_name"
     ;;
   R)
     win_name="$("$TMUX_BIN" display-message -p -t "$win_id" '#{window_name}' 2>/dev/null || echo "")"
-    "$TMUX_BIN" command-prompt -I "$win_name" -p "Rename window:" "rename-window -t '$win_id' '%%'"
+    read -p "Rename window '$win_name' to: " new_name
+    [[ -n "$new_name" ]] && "$TMUX_BIN" rename-window -t "$win_id" "$new_name"
     ;;
   p)
     pane_title="$("$TMUX_BIN" display-message -p -t "$pane_id" '#{pane_title}' 2>/dev/null || echo "")"
-    "$TMUX_BIN" command-prompt -I "$pane_title" -p "Rename pane title:" "select-pane -t '$pane_id' -T '%%'"
+    read -p "Rename pane to: " new_title
+    [[ -n "$new_title" ]] && "$TMUX_BIN" select-pane -t "$pane_id" -T "$new_title"
     ;;
   x)
     "$TMUX_BIN" kill-pane -t "$pane_id" 2>/dev/null || true
