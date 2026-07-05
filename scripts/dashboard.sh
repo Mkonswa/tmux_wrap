@@ -30,14 +30,13 @@ run_fzf() {
     --expect='r,R,p,x,w,K,n,N'
   )
 
-  if [[ -n "${TMUX:-}" ]] && [[ -x "$FZF_TMUX_BIN" ]]; then
-    format_lines | "$FZF_TMUX_BIN" -d 50% "${opts[@]}"
-  elif [[ -x "$FZF_BIN" ]]; then
+  if [[ -x "$FZF_BIN" ]]; then
     format_lines | "$FZF_BIN" --height 80% "${opts[@]}"
   elif command -v fzf >/dev/null 2>&1; then
     format_lines | fzf --height 80% "${opts[@]}"
   else
-    format_lines | head -n 1
+    "$TMUX_BIN" display-message "dashboard: fzf not found"
+    return 1
   fi
 }
 
@@ -75,18 +74,15 @@ case "$key" in
     jump
     ;;
   r)
-    read -p "Rename session '$session' to: " new_name
-    [[ -n "$new_name" ]] && "$TMUX_BIN" rename-session -t "$session" "$new_name"
+    "$TMUX_BIN" command-prompt -I "$session" -p "Rename session:" "rename-session -t '$session' '%%'"
     ;;
   R)
     win_name="$("$TMUX_BIN" display-message -p -t "$win_id" '#{window_name}' 2>/dev/null || echo "")"
-    read -p "Rename window '$win_name' to: " new_name
-    [[ -n "$new_name" ]] && "$TMUX_BIN" rename-window -t "$win_id" "$new_name"
+    "$TMUX_BIN" command-prompt -I "$win_name" -p "Rename window:" "rename-window -t '$win_id' '%%'"
     ;;
   p)
     pane_title="$("$TMUX_BIN" display-message -p -t "$pane_id" '#{pane_title}' 2>/dev/null || echo "")"
-    read -p "Rename pane to: " new_title
-    [[ -n "$new_title" ]] && "$TMUX_BIN" select-pane -t "$pane_id" -T "$new_title"
+    "$TMUX_BIN" command-prompt -I "$pane_title" -p "Rename pane:" "select-pane -t '$pane_id' -T '%%'"
     ;;
   x)
     "$TMUX_BIN" kill-pane -t "$pane_id" 2>/dev/null || true
