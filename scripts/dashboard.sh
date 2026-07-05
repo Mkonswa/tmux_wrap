@@ -13,7 +13,7 @@ format_lines() {
       attached = ($9 == "1") ? "* " : "  "
       label = sprintf("%s%-14s -> %s:%s -> pane %s", attached, $1, $2, $3, $4)
       if ($5 != "") label = label " [" $5 "]"
-      printf "%s|%s|%s|%s|%s|%s\n", label, $6, $7, $8, $1, $2
+      printf "%s|%s|%s|%s|%s|%s|%s\n", label, $6, $7, $8, $1, $2, $4
     }'
 }
 
@@ -69,20 +69,40 @@ jump() {
   "$TMUX_BIN" select-pane -t "$pane_id" 2>/dev/null || true
 }
 
+prompt_value() {
+  local label="$1"
+  local current="$2"
+  local value=""
+
+  if [[ -r /dev/tty ]]; then
+    printf "%s [%s]: " "$label" "$current" > /dev/tty
+    IFS= read -r value < /dev/tty || true
+  fi
+
+  if [[ -z "$value" ]]; then
+    value="$current"
+  fi
+
+  printf '%s' "$value"
+}
+
 case "$key" in
   "")
     jump
     ;;
   r)
-    "$TMUX_BIN" command-prompt -I "$session" -p "Rename session:" "rename-session -t '$session' '%%'"
+    new_session="$(prompt_value "Session name" "$session")"
+    [[ -n "$new_session" ]] && "$TMUX_BIN" rename-session -t "$session" "$new_session"
     ;;
   R)
-    win_name="$("$TMUX_BIN" display-message -p -t "$win_id" '#{window_name}' 2>/dev/null || echo "")"
-    "$TMUX_BIN" command-prompt -I "$win_name" -p "Rename window:" "rename-window -t '$win_id' '%%'"
+    win_name="$($TMUX_BIN display-message -p -t "$win_id" '#{window_name}' 2>/dev/null || echo "")"
+    new_window="$(prompt_value "Window name" "$win_name")"
+    [[ -n "$new_window" ]] && "$TMUX_BIN" rename-window -t "$win_id" "$new_window"
     ;;
   p)
-    pane_title="$("$TMUX_BIN" display-message -p -t "$pane_id" '#{pane_title}' 2>/dev/null || echo "")"
-    "$TMUX_BIN" command-prompt -I "$pane_title" -p "Rename pane:" "select-pane -t '$pane_id' -T '%%'"
+    pane_title="$($TMUX_BIN display-message -p -t "$pane_id" '#{pane_title}' 2>/dev/null || echo "")"
+    new_title="$(prompt_value "Pane title" "$pane_title")"
+    [[ -n "$new_title" ]] && "$TMUX_BIN" select-pane -t "$pane_id" -T "$new_title"
     ;;
   x)
     "$TMUX_BIN" kill-pane -t "$pane_id" 2>/dev/null || true
@@ -94,9 +114,9 @@ case "$key" in
     "$TMUX_BIN" kill-session -t "$session" 2>/dev/null || true
     ;;
   n)
-    "$TMUX_BIN" command-prompt -p "New session name:" "new-session -d -s '%%' -c '$HOME'"
+    "$TMUX_BIN" command-prompt -p "New session name:" "new-session -d -s \"%%\" -c \"$HOME\""
     ;;
   N)
-    "$TMUX_BIN" command-prompt -I "" -p "New window name:" "new-window -n '%%' -c '$path'"
+    "$TMUX_BIN" command-prompt -I "" -p "New window name:" "new-window -n \"%%\" -c \"$path\""
     ;;
 esac
